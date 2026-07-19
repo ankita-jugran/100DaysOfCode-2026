@@ -1,0 +1,58 @@
+#include <stdio.h>
+
+#define MAX 100005
+
+int maxVisiblePeople(int arr[], int n) {
+    int left[MAX] = {0};
+    int right[MAX] = {0};
+    int stack[MAX];
+    int top = -1;
+
+    // Count visible people on the left
+    for (int i = 0; i < n; i++) {
+        while (top != -1 && arr[stack[top]] < arr[i])
+            top--;
+
+        if (top == -1)
+            left[i] = i;
+        else
+            left[i] = i - stack[top] - 1;
+
+        stack[++top] = i;
+    }
+
+    // Reset stack
+    top = -1;
+
+    // Count visible people on the right
+    for (int i = n - 1; i >= 0; i--) {
+        while (top != -1 && arr[stack[top]] < arr[i])
+            top--;
+
+        if (top == -1)
+            right[i] = (n - 1 - i);
+        else
+            right[i] = stack[top] - i - 1;
+
+        stack[++top] = i;
+    }
+
+    int ans = 1;
+
+    for (int i = 0; i < n; i++) {
+        int visible = left[i] + right[i] + 1;
+        if (visible > ans)
+            ans = visible;
+    }
+
+    return ans;
+}
+
+int main() {
+    int arr[] = {6, 2, 5, 4, 5, 1, 6};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("%d\n", maxVisiblePeople(arr, n));
+
+    return 0;
+}
