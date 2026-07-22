@@ -1,0 +1,19 @@
+import java.util.Queue;
+import java.util.ArrayDeque;
+
+public class Question1_LeetCode {
+    class RecentCounter {
+        Queue<Integer> q;
+
+        public RecentCounter() {
+            q = new ArrayDeque<>();
+        }
+        
+        public int ping(int t) {
+            q.offer(t);        
+            
+            while (q.peek() < t-3000) q.poll();
+            return q.size();
+        }
+    }
+}
