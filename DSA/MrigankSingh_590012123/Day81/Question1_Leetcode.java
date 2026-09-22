@@ -1,0 +1,15 @@
+package Day81;
+
+public class Question1_Leetcode {
+    public int hammingDistance(int x, int y) {
+        int diff = x ^ y;
+        int count = 0;
+
+        while (diff != 0) {
+            diff &= (diff - 1);
+            count++;
+        }
+
+        return count;
+    }
+}
